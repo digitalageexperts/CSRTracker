@@ -1,6 +1,6 @@
 package com.digitalageexperts.csrtracker;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 
 
@@ -16,12 +16,12 @@ public class CsrItem {
 	private String _skillsOptional;
 	private String _clearance;
 	private String _location;
-	private Date _resumeDueDate;
+	private LocalDate _resumeDueDate;
 	
 	
 	public CsrItem(String CsrNumber, String CsrType, String Description, String Fte, String RoleSkill,
 			String Level, String RequiredCerts, String SkillsMandated, String SkillsOptional,
-			String Clearance, String Location, Date ResumeDueDate)
+			String Clearance, String Location, LocalDate ResumeDueDate)
 	{
 		if(CsrNumber == null || CsrNumber.equals(""))
 			throw new IllegalArgumentException("CsrNumber cannot be null or empty");
@@ -81,7 +81,7 @@ public class CsrItem {
 	{ return _clearance;}
 	public String getLocation()
 	{ return _location;}
-	public Date getResumeDueDate()
+	public LocalDate getResumeDueDate()
 	{ return _resumeDueDate;}
 	
 	

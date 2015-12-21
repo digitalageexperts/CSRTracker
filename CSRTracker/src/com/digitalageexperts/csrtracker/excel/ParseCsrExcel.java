@@ -1,7 +1,8 @@
 package com.digitalageexperts.csrtracker.excel;
 
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -151,7 +152,7 @@ public class ParseCsrExcel {
 		String SkillsOptional = null;
 		String Clearance = null;
 		String Location = null;
-		Date ResumeDueDate = null;
+		LocalDate ResumeDueDate = null;
 		
 		int cellnum = 0;
 	    while (cellIterator.hasNext()) 
@@ -222,7 +223,7 @@ public class ParseCsrExcel {
                 case 11:
                 	if(cell.getCellType() != Cell.CELL_TYPE_NUMERIC && HSSFDateUtil.isCellDateFormatted(cell))
                 		throw new Exception("File Format Not As Expected: Row:"+_rownum+" Cell:"+cellnum+" not a date");
-                	ResumeDueDate = cell.getDateCellValue();
+                	ResumeDueDate = cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 	break;
             }
 	        
