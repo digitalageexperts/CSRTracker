@@ -3,6 +3,7 @@ package com.digitalageexperts.csrtracker.excel;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -12,7 +13,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.digitalageexperts.csrtracker.CsrItem;
+import com.digitalageexperts.csrtracker.model.Csr;
 
 public class ParseCsrExcel {
 
@@ -136,7 +137,7 @@ public class ParseCsrExcel {
 		return _rowIterator.hasNext();
 	}
 	
-	public CsrItem ReadNextItem() throws Exception
+	public Csr ReadNextItem() throws Exception
 	{
 		//Every row has columns, get the column iterator and iterate over them
 		Iterator<Cell> cellIterator = _rowIterator.next().cellIterator();
@@ -152,7 +153,7 @@ public class ParseCsrExcel {
 		String SkillsOptional = null;
 		String Clearance = null;
 		String Location = null;
-		LocalDate ResumeDueDate = null;
+		Date ResumeDueDate = null;
 		
 		int cellnum = 0;
 	    while (cellIterator.hasNext()) 
@@ -223,19 +224,18 @@ public class ParseCsrExcel {
                 case 11:
                 	if(cell.getCellType() != Cell.CELL_TYPE_NUMERIC && HSSFDateUtil.isCellDateFormatted(cell))
                 		throw new Exception("File Format Not As Expected: Row:"+_rownum+" Cell:"+cellnum+" not a date");
-                	ResumeDueDate = cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                	ResumeDueDate = cell.getDateCellValue();
                 	break;
             }
 	        
     		cellnum++; 
 	    } //end of cell iterator
 	    
-	    CsrItem item = new CsrItem(CsrNumber, CsrType, Description, Fte, RoleSkill,
-				Level, RequiredCerts, SkillsMandated, SkillsOptional,
-				Clearance, Location, ResumeDueDate);
+	    Csr item = new Csr(CsrNumber, CsrType, Description, ResumeDueDate, Fte, RoleSkill,
+	    		Location, RequiredCerts, Level, SkillsMandated, SkillsOptional);
 	    
 	    
-	    
+		
 	    _rownum++;
 		return item;
 	}

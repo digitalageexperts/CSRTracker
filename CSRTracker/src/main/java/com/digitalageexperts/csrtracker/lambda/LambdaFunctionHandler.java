@@ -17,9 +17,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.event.S3EventNotification.S3EventNotificationRecord;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.digitalageexperts.csrtracker.CsrItem;
 import com.digitalageexperts.csrtracker.dynamodb.CsrTrackingItem;
 import com.digitalageexperts.csrtracker.excel.ParseCsrExcel;
+import com.digitalageexperts.csrtracker.model.Csr;
 
 public class LambdaFunctionHandler implements RequestHandler<S3Event, Object> {
 
@@ -74,7 +74,7 @@ public class LambdaFunctionHandler implements RequestHandler<S3Event, Object> {
         
         while (parser.HasNextItem()) 
         {
-			CsrItem item;
+			Csr item;
 			try {
 				item = parser.ReadNextItem();
 			} catch (Exception e) {
@@ -83,18 +83,18 @@ public class LambdaFunctionHandler implements RequestHandler<S3Event, Object> {
 			}
 			
 			CsrTrackingItem dbitem = new CsrTrackingItem();
-			dbitem.setCsrNumber(item.getCsrNumber());
-			dbitem.setCsrType(item.getCsrType());
+			dbitem.setCsrNumber(item.getCsrnumber());
+			dbitem.setCsrType(item.getCsrnumber());
 			dbitem.setDescription(item.getDescription());
 			dbitem.setFte(item.getFte());
-			dbitem.setRoleSkill(item.getRoleSkill());
-			dbitem.setLevel(item.getLevel());
+			dbitem.setRoleSkill(item.getLaborCategory());
+			dbitem.setLevel(item.getSkillLevel());
 			dbitem.setRequiredCerts(item.getRequiredCerts());
-			dbitem.setSkillsMandated(item.getSkillsMandated());
+			dbitem.setSkillsMandated(item.getSkillsMandatory());
 			dbitem.setSkillsOptional(item.getSkillsOptional());
-			dbitem.setClearance(item.getClearance());
+			
 			dbitem.setLocation(item.getLocation());
-			dbitem.setResumeDueDate(item.getResumeDueDate().toString());
+			dbitem.setResumeDueDate(item.getDueDate().toString());
 			
 			mapper.save(dbitem);
 		}
