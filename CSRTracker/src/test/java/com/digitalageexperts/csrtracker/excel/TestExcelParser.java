@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import com.digitalageexperts.csrtracker.CsrItem;
 import com.digitalageexperts.csrtracker.excel.ParseCsrExcel;
+import com.digitalageexperts.csrtracker.model.Csr;
 
 
 public class TestExcelParser {
@@ -54,22 +54,22 @@ public class TestExcelParser {
 		ParseCsrExcel parser = new ParseCsrExcel(reader,ext);
 		
 		while (parser.HasNextItem()) {
-			CsrItem item = parser.ReadNextItem();
+			Csr item = parser.ReadNextItem();
 			System.out.println("========================================================================");
 			System.out.println("Item:"+(parser.GetNextRowNumber()-1));
 			System.out.println("========================================================================");
-			System.out.println("CsrNumber: "+item.getCsrNumber());
-			System.out.println("CsrType: "+item.getCsrType());
+			System.out.println("CsrNumber: "+item.getCsrnumber());
+			System.out.println("CsrType: "+item.getCsrnumber());
 			System.out.println("Description: "+item.getDescription());
 			System.out.println("Fte: "+item.getFte());
-			System.out.println("Role/Skill: "+item.getRoleSkill());
-			System.out.println("Level: "+item.getLevel());
+			System.out.println("Role/Skill: "+item.getLaborCategory());
+			System.out.println("Level: "+item.getSkillLevel());
 			System.out.println("RequiredCerts: "+item.getRequiredCerts());
-			System.out.println("Mandated Skills: "+item.getSkillsMandated());
+			System.out.println("Mandated Skills: "+item.getSkillsMandatory());
 			System.out.println("Optional Skills: "+item.getSkillsOptional());
-			System.out.println("Required Clearance: "+item.getClearance());
+			
 			System.out.println("Location: "+item.getLocation());
-			System.out.println("Resumes Due Dates: "+item.getResumeDueDate().toString());
+			System.out.println("Resumes Due Dates: "+item.getDueDate().toString());
 			System.out.println();
 			System.out.println();
 		}
