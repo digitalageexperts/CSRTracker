@@ -8,12 +8,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
 import com.digitalageexperts.csrtracker.excel.ParseCsrExcel;
 import com.digitalageexperts.csrtracker.model.Csr;
 import com.digitalageexperts.csrtracker.model.CsrRepository;
 
 @SpringBootApplication
+@PropertySource("file:/Users/Benjamin Laibson/Documents/CSRTracker_properties/local.properties")
 public class App {
 	
 		private static final Logger log = Logger.getLogger(App.class);
